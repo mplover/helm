@@ -1,10 +1,8 @@
-FROM centos
+FROM alpine
 LABEL maintainer "Mark Plover <mydubrules@gmail.com>"
 
-RUN yum install -y curl openssl which && \
-    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && \
-    chmod u+x get_helm.sh && \
-    ./get_helm.sh --version v3.3.4
+RUN apk update
+RUN apk add curl openssl which git
+RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sh
 
-RUN yum install -y git && \
-    helm plugin install https://github.com/chartmuseum/helm-push
+RUN helm plugin install https://github.com/chartmuseum/helm-push
