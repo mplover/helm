@@ -2,8 +2,8 @@
 
 pipeline {
   environment {
-    registry = "https://registry.markplover.com"
-    image = "dafr33k/helm"
+    registry = "https://docker.mplover.com"
+    image = "mplover/helm"
     registryCredential = "docker-registry-jenkins"
   }
   agent any
