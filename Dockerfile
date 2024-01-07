@@ -1,8 +1,13 @@
-FROM alpine
-LABEL maintainer "Mark Plover <mydubrules@gmail.com>"
+FROM alpine:3.19
 
-RUN apk update
-RUN apk add curl openssl which git
-RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sh
+ENV HELM_VERSION v3.7.1
 
-RUN helm plugin install https://github.com/chartmuseum/helm-push
+RUN apk add --no-cache openssl bash ca-certificates \
+ && wget -q https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz \
+ && tar -zxvf helm-${HELM_VERSION}-linux-amd64.tar.gz \
+ && mv linux-amd64/helm /usr/local/bin/helm \
+ && rm -rf linux-amd64 helm-${HELM_VERSION}-linux-amd64.tar.gz \
+ && helm repo add stable https://charts.helm.sh/stable \
+ && helm repo update
+
+CMD helm
